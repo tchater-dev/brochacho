@@ -1,3 +1,6 @@
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    statusbar.value += -1
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . 
@@ -18,20 +21,17 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         `, mySprite, 50, 50)
     projectile.follow(BB01)
 })
+statusbars.onZero(StatusBarKind.Health, function (status) {
+    game.gameOver(false)
+})
 statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
     sprites.destroy(BB01, effects.fire, 200)
     pause(500)
     game.gameOver(true)
 })
-statusbars.onZero(StatusBarKind.Health, function (status) {
-    game.gameOver(false)
-})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     BB01HP.value += -1
     projectile.setFlag(SpriteFlag.AutoDestroy, false)
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    statusbar.value += -1
 })
 let projectile: Sprite = null
 let BB01HP: StatusBarSprite = null
